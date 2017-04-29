@@ -120,8 +120,10 @@ void commands_process_packet(unsigned char *data, unsigned int len) {
 	uint16_t flash_res;
 	uint32_t new_app_offset;
 	chuck_data chuck_d_tmp;
+	char *sub;
 
 	packet_id = data[0];
+	sub = "wheelLB";
 	data++;
 	len--;
 
@@ -788,6 +790,14 @@ void commands_process_packet(unsigned char *data, unsigned int len) {
 			appdata_func(data, len);
 		}
 		break;
+
+	case COMM_GET_SUBSCRIBED:
+		ind = 0;
+		send_buffer[ind++] = COMM_GET_SUBSCRIBED;
+		strcpy(send_buffer+ind, sub);
+		commands_send_packet(send_buffer, strlen(sub)+1);
+		break;
+
 
 	default:
 		break;

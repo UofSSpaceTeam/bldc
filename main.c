@@ -104,6 +104,7 @@ static THD_FUNCTION(periodic_thread, arg) {
 		}
 
 		disp_pos_mode display_mode = commands_get_disp_pos_mode();
+		/*
 
 		switch (display_mode) {
 			case DISP_POS_MODE_ENCODER:
@@ -121,6 +122,7 @@ static THD_FUNCTION(periodic_thread, arg) {
 			default:
 				break;
 		}
+		*/
 
 		if (mc_interface_get_configuration()->motor_type == MOTOR_TYPE_FOC) {
 			switch (display_mode) {

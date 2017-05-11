@@ -607,6 +607,10 @@ void commands_process_packet(unsigned char *data, unsigned int len) {
 		terminal_process_string((char*)data);
 		break;
 
+	case COMM_ROTOR_POSITION:
+		commands_send_rotor_pos(encoder_read_deg());
+		break;
+
 	case COMM_DETECT_MOTOR_PARAM:
 		ind = 0;
 		detect_current = buffer_get_float32(data, 1e3, &ind);

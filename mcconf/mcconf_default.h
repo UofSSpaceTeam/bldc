@@ -300,7 +300,7 @@
 #define MCCONF_M_ENCODER_COUNTS			8192	// The number of encoder counts
 #endif
 #ifndef MCCONF_M_SENSOR_PORT_MODE
-#define MCCONF_M_SENSOR_PORT_MODE		SENSOR_PORT_MODE_HALL // The mode of the hall_encoder port
+#define MCCONF_M_SENSOR_PORT_MODE		SENSOR_PORT_MODE_AS5047_SPI // The mode of the hall_encoder port
 #endif
 
 #endif /* MCCONF_DEFAULT_H_ */

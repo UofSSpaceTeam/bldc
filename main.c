@@ -72,6 +72,7 @@
 
 static THD_WORKING_AREA(periodic_thread_wa, 1024);
 static THD_WORKING_AREA(timer_thread_wa, 128);
+static THD_WORKING_AREA(heartbeat_thread_wa, 1024);
 
 static THD_FUNCTION(periodic_thread, arg) {
 	(void)arg;
@@ -154,6 +155,16 @@ static THD_FUNCTION(timer_thread, arg) {
 	}
 }
 
+static THD_FUNCTION(heartbeat_thread, arg) {
+	(void)arg;
+
+	chRegSetThreadName("heartbeat");
+
+	for(;;) {
+		commands_send_heartbeat();
+		chThdSleepMilliseconds(200);
+	}
+}
 int main(void) {
 	halInit();
 	chSysInit();
@@ -201,9 +212,11 @@ int main(void) {
 	// Threads
 	chThdCreateStatic(periodic_thread_wa, sizeof(periodic_thread_wa), NORMALPRIO, periodic_thread, NULL);
 	chThdCreateStatic(timer_thread_wa, sizeof(timer_thread_wa), NORMALPRIO, timer_thread, NULL);
+	chThdCreateStatic(heartbeat_thread_wa, sizeof(heartbeat_thread_wa), NORMALPRIO, heartbeat_thread, NULL);
 
 	for(;;) {
-		chThdSleepMilliseconds(10);
+		chThdSleepMilliseconds(200);
+		commands_send_heartbeat(); // TODO figure out why heartbeat_thread doesn't run...
 
 		if (encoder_is_configured()) {
 			//		comm_can_set_pos(0, encoder_read_deg());

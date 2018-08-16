@@ -67,8 +67,6 @@ static void(*send_func)(unsigned char *data, unsigned int len) = 0;
 static void(*appdata_func)(unsigned char *data, unsigned int len) = 0;
 static disp_pos_mode display_position_mode;
 
-static NAME = "wheelRF";
-
 void commands_init(void) {
 	chThdCreateStatic(detect_thread_wa, sizeof(detect_thread_wa), NORMALPRIO, detect_thread, NULL);
 }
@@ -125,7 +123,7 @@ void commands_process_packet(unsigned char *data, unsigned int len) {
 	char *sub;
 
 	packet_id = data[0];
-	sub = NAME;
+	sub = "wheelLB";
 	data++;
 	len--;
 
@@ -881,14 +879,6 @@ void commands_send_app_data(unsigned char *data, unsigned int len) {
 	index += len;
 
 	commands_send_packet(send_buffer, index);
-}
-
-void commands_send_heartbeat() {
-	int32_t index = 0;
-	send_buffer[index++] = COMM_GET_SUBSCRIBED;
-	strcpy(send_buffer+index, NAME);
-	commands_send_packet(send_buffer, strlen(NAME)+1);
-
 }
 
 static THD_FUNCTION(detect_thread, arg) {
